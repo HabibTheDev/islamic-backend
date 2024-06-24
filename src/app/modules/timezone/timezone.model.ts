@@ -3,7 +3,7 @@ import { IPrayerTime } from './timezone.interface';
 import prayerTimeSchema from './timeZoneSchema';
 
 const getPrayerTimeModel = (month: string): Model<IPrayerTime> => {
-  const collectionName = `prayerTimes_${month}`; // e.g., "prayerTimes_january"
+  const collectionName = `${month}`; // e.g., "prayerTimes_january"
   return mongoose.model<IPrayerTime>(
     collectionName,
     prayerTimeSchema,
