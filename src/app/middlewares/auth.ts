@@ -1,14 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import { TUserRole } from '../user/user.interface';
+
 import catchAsync from '../utils/catchAsync';
 import AppError from '../errors/AppError';
 import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
-import { User } from '../user/user.model';
-import UnAuthorize from '../errors/unauthorizedError';
 
-const auth = (...requiredRole: TUserRole[]) => {
+import UnAuthorize from '../errors/unauthorizedError';
+import { User } from './../modules/user/user.model';
+
+const auth = (...requiredRole: any[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
 
@@ -24,22 +25,12 @@ const auth = (...requiredRole: TUserRole[]) => {
     // console.log(decoded);
 
     // const { username, role, email, iat, exp } = decoded;
-    const { email, role, iat } = decoded;
+    const { email, role } = decoded;
 
     const user = await User.isUserExistsByEmail(email);
 
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, 'Unauthorized Access');
-    }
-
-    if (
-      user.passwordChangedAt &&
-      User.isJWTIssuedBeforePasswordChanged(
-        user.passwordChangedAt,
-        iat as number,
-      )
-    ) {
-      throw new UnAuthorize('Unauthorized Access');
     }
 
     if (requiredRole && !requiredRole.includes(role)) {
