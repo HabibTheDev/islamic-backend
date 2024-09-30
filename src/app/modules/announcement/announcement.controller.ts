@@ -46,9 +46,23 @@ export const updateBlog = async (req: Request, res: Response) => {
   }
 };
 
+const deleteBlog = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const deletedImage = await BlogService.deleteBlog(id);
+    if (!deletedImage)
+      return res.status(404).json({ message: 'Image not found' });
+
+    return res.status(200).json({ message: 'Image deleted successfully' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Error deleting image', error });
+  }
+};
+
 export const BlogController = {
   createBlog,
   getBlog,
   getAllBlogs,
   updateBlog,
+  deleteBlog,
 };
