@@ -15,4 +15,4 @@ const blogSchema = new Schema<TBlog>({
   },
 });
 
-export const User = model<TBlog>('Blog', blogSchema);
+export const Blog = model<TBlog>('Blog', blogSchema);

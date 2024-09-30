@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { AuthRoutes } from '../modules/user/user.route';
 import { PrayerTimeRoutes } from '../modules/timezone/timezone.route';
+import { BlogRoutes } from '../modules/announcement/announcement.route';
 const router = Router();
 
 const moduleRoutes = [
@@ -11,6 +12,10 @@ const moduleRoutes = [
   {
     path: '/times',
     route: PrayerTimeRoutes,
+  },
+  {
+    path: '/blogs',
+    route: BlogRoutes,
   },
 ];
 
